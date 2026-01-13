@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_color_picker">
+
+    <fragment
+        android:id="@+id/nav_color_picker"
+        android:name="com.example.coloridentifier.ui.ColorPickerFragment"
+        android:label="@string/nav_color_picker"
+        tools:layout="@layout/fragment_color_picker" />
+
+    <fragment
+        android:id="@+id/nav_saved_colors"
+        android:name="com.example.coloridentifier.ui.SavedColorsFragment"
+        android:label="@string/nav_saved_colors"
+        tools:layout="@layout/fragment_saved_colors" />
+
+    <fragment
+        android:id="@+id/nav_palettes"
+        android:name="com.example.coloridentifier.ui.PalettesFragment"
+        android:label="@string/nav_palettes"
+        tools:layout="@layout/fragment_palettes" />
+
+    <fragment
+        android:id="@+id/nav_color_wheel"
+        android:name="com.example.coloridentifier.ui.ColorWheelFragment"
+        android:label="@string/nav_color_wheel"
+        tools:layout="@layout/fragment_color_wheel" />
+
+</navigation>
