@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/brightness"
+        android:text="Adjust darkness to color intensity"
         android:textColor="@color/text_primary"
         android:textSize="@dimen/text_size_medium"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +48,19 @@
         android:textSize="@dimen/text_size_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brightnessSlider" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addSavedColorButton"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Saved Color"
+        android:textSize="12sp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/slotsLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/slotsLabel" />
 
     <LinearLayout
         android:id="@+id/colorSlotsContainer"
@@ -182,13 +195,23 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/savePaletteButton"
+        android:id="@+id/saveColorButton"
         style="@style/AppButton"
         android:layout_width="0dp"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:text="@string/save_palette"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:text="Save Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/colorSlotsContainer" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/savePaletteButton"
+        style="@style/AppButton"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/save_palette"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveColorButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

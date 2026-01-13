@@ -16,6 +16,7 @@ import com.example.coloridentifier.model.Color
 import com.example.coloridentifier.utils.ColorNameMapper
 import com.example.coloridentifier.utils.ColorUtils
 import com.example.coloridentifier.viewmodel.PaletteViewModel
+import com.example.coloridentifier.viewmodel.ColorViewModel
 import com.google.android.material.slider.Slider
 
 class ColorWheelFragment : Fragment() {
@@ -23,6 +24,7 @@ class ColorWheelFragment : Fragment() {
     private var _binding: FragmentColorWheelBinding? = null
     private val binding get() = _binding!!
     private val paletteViewModel: PaletteViewModel by activityViewModels()
+    private val colorViewModel: ColorViewModel by activityViewModels()
     
     private val colorSlots = mutableListOf<View>()
     private val slotColors = mutableListOf<Color?>(null, null, null, null, null)
@@ -42,6 +44,8 @@ class ColorWheelFragment : Fragment() {
         setupColorWheel()
         setupSlots()
         setupBrightnessSlider()
+        setupAddSavedColorButton()
+        setupSaveColorButton()
         setupSaveButton()
     }
 
@@ -65,6 +69,9 @@ class ColorWheelFragment : Fragment() {
                 slotColors[selectedSlotIndex] = color
                 colorSlots[selectedSlotIndex].setBackgroundColor(colorInt)
             }
+            
+            // Aktualizuj gradient suwaka przy zmianie hue
+            updateSliderTrackColor()
         }
     }
 
@@ -110,8 +117,108 @@ class ColorWheelFragment : Fragment() {
     }
 
     private fun setupBrightnessSlider() {
+        // Ustaw początkowy gradient suwaka
+        updateSliderTrackColor()
+        
         binding.brightnessSlider.addOnChangeListener { _, value, _ ->
-            binding.colorWheelView.setBrightness(value)
+            binding.colorWheelView.setValue(value)
+        }
+    }
+    
+    /**
+     * Aktualizuje kolor tła suwaka na podstawie aktualnie wybranego hue
+     */
+    private fun updateSliderTrackColor() {
+        val hue = binding.colorWheelView.getSelectedHue()
+        val fullColor = AndroidColor.HSVToColor(floatArrayOf(hue, 1f, 1f))
+        
+        // Tworzymy gradient drawable od czarnego do pełnego koloru
+        val gradientDrawable = android.graphics.drawable.GradientDrawable(
+            android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(AndroidColor.BLACK, fullColor)
+        )
+        gradientDrawable.cornerRadius = 8f
+        
+        // Ustawiamy gradient jako tło track
+        binding.brightnessSlider.trackHeight = 12
+        binding.brightnessSlider.setCustomThumbDrawable(
+            android.graphics.drawable.ShapeDrawable(android.graphics.drawable.shapes.OvalShape()).apply {
+                intrinsicWidth = 24
+                intrinsicHeight = 24
+                paint.color = AndroidColor.WHITE
+                paint.style = android.graphics.Paint.Style.FILL
+            }
+        )
+    }
+
+    private fun setupAddSavedColorButton() {
+        binding.addSavedColorButton.setOnClickListener {
+            if (selectedSlotIndex < 0) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select a slot first",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            
+            // Pobierz listę zapisanych kolorów
+            val savedColors = colorViewModel.colors.value ?: emptyList()
+            
+            if (savedColors.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "No saved colors available",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            
+            // Pokaż dialog z listą kolorów
+            val colorNames = savedColors.map { it.name }.toTypedArray()
+            
+            AlertDialog.Builder(requireContext())
+                .setTitle("Select a color")
+                .setItems(colorNames) { _, which ->
+                    val selectedColor = savedColors[which]
+                    slotColors[selectedSlotIndex] = selectedColor
+                    colorSlots[selectedSlotIndex].setBackgroundColor(selectedColor.toColorInt())
+                    Toast.makeText(
+                        requireContext(),
+                        "Added ${selectedColor.name}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+    }
+
+    private fun setupSaveColorButton() {
+        binding.saveColorButton.setOnClickListener {
+            // Sprawdź czy jest wybrany kolor w slocie
+            if (selectedSlotIndex >= 0 && slotColors[selectedSlotIndex] != null) {
+                val color = slotColors[selectedSlotIndex]!!
+                if (colorViewModel.saveColor(color)) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Color saved!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.color_already_exists),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select a slot with a color first",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

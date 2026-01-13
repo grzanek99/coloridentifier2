@@ -19,79 +19,79 @@ object ColorNameMapper {
     // Comprehensive list of named colors with RGB values
     private val namedColors = listOf(
         // Basic colors
-        NamedColor("Czerwony", 255, 0, 0),
-        NamedColor("Zielony", 0, 255, 0),
-        NamedColor("Niebieski", 0, 0, 255),
-        NamedColor("Żółty", 255, 255, 0),
-        NamedColor("Cyjan", 0, 255, 255),
+        NamedColor("Red", 255, 0, 0),
+        NamedColor("Green", 0, 255, 0),
+        NamedColor("Blue", 0, 0, 255),
+        NamedColor("Yellow", 255, 255, 0),
+        NamedColor("Cyan", 0, 255, 255),
         NamedColor("Magenta", 255, 0, 255),
-        NamedColor("Biały", 255, 255, 255),
-        NamedColor("Czarny", 0, 0, 0),
-        NamedColor("Szary", 128, 128, 128),
+        NamedColor("White", 255, 255, 255),
+        NamedColor("Black", 0, 0, 0),
+        NamedColor("Gray", 128, 128, 128),
         
         // Shades of red
-        NamedColor("Ciemnoczerwony", 139, 0, 0),
-        NamedColor("Karmazynowy", 220, 20, 60),
-        NamedColor("Koralowy", 255, 127, 80),
-        NamedColor("Łososiowy", 250, 128, 114),
-        NamedColor("Różowy", 255, 192, 203),
-        NamedColor("Ciemnoróżowy", 255, 20, 147),
+        NamedColor("Dark Red", 139, 0, 0),
+        NamedColor("Crimson", 220, 20, 60),
+        NamedColor("Coral", 255, 127, 80),
+        NamedColor("Salmon", 250, 128, 114),
+        NamedColor("Pink", 255, 192, 203),
+        NamedColor("Deep Pink", 255, 20, 147),
         
         // Shades of orange
-        NamedColor("Pomarańczowy", 255, 165, 0),
-        NamedColor("Ciemnopomarańczowy", 255, 140, 0),
-        NamedColor("Pomidorowy", 255, 99, 71),
+        NamedColor("Orange", 255, 165, 0),
+        NamedColor("Dark Orange", 255, 140, 0),
+        NamedColor("Tomato", 255, 99, 71),
         
         // Shades of yellow
-        NamedColor("Złoty", 255, 215, 0),
+        NamedColor("Gold", 255, 215, 0),
         NamedColor("Khaki", 240, 230, 140),
-        NamedColor("Beżowy", 245, 245, 220),
+        NamedColor("Beige", 245, 245, 220),
         
         // Shades of green
-        NamedColor("Limonkowy", 50, 205, 50),
-        NamedColor("Ciemnozielony", 0, 100, 0),
-        NamedColor("Oliwkowy", 128, 128, 0),
-        NamedColor("Żółtozielony", 154, 205, 50),
-        NamedColor("Morski", 46, 139, 87),
-        NamedColor("Miętowy", 152, 251, 152),
-        NamedColor("Wiosennozielony", 0, 255, 127),
+        NamedColor("Lime", 50, 205, 50),
+        NamedColor("Dark Green", 0, 100, 0),
+        NamedColor("Olive", 128, 128, 0),
+        NamedColor("Yellow Green", 154, 205, 50),
+        NamedColor("Sea Green", 46, 139, 87),
+        NamedColor("Mint", 152, 251, 152),
+        NamedColor("Spring Green", 0, 255, 127),
         
         // Shades of cyan
-        NamedColor("Turkusowy", 64, 224, 208),
-        NamedColor("Akwamaryna", 127, 255, 212),
-        NamedColor("Jasnoniebieski", 173, 216, 230),
+        NamedColor("Turquoise", 64, 224, 208),
+        NamedColor("Aquamarine", 127, 255, 212),
+        NamedColor("Light Blue", 173, 216, 230),
         
         // Shades of blue
-        NamedColor("Ciemnoniebieski", 0, 0, 139),
-        NamedColor("Królewskimodrý", 65, 105, 225),
-        NamedColor("Stalowy", 70, 130, 180),
-        NamedColor("Błękitny", 135, 206, 235),
-        NamedColor("Granatowy", 0, 0, 128),
-        NamedColor("Chabrowy", 75, 0, 130),
+        NamedColor("Dark Blue", 0, 0, 139),
+        NamedColor("Royal Blue", 65, 105, 225),
+        NamedColor("Steel Blue", 70, 130, 180),
+        NamedColor("Sky Blue", 135, 206, 235),
+        NamedColor("Navy", 0, 0, 128),
+        NamedColor("Indigo", 75, 0, 130),
         
         // Shades of purple
-        NamedColor("Fioletowy", 128, 0, 128),
-        NamedColor("Ciemnofioletowy", 148, 0, 211),
-        NamedColor("Lawendowy", 230, 230, 250),
-        NamedColor("Śliwkowy", 221, 160, 221),
-        NamedColor("Orchidea", 218, 112, 214),
+        NamedColor("Purple", 128, 0, 128),
+        NamedColor("Dark Violet", 148, 0, 211),
+        NamedColor("Lavender", 230, 230, 250),
+        NamedColor("Plum", 221, 160, 221),
+        NamedColor("Orchid", 218, 112, 214),
         
         // Shades of brown
-        NamedColor("Brązowy", 165, 42, 42),
-        NamedColor("Czekoladowy", 210, 105, 30),
-        NamedColor("Piaskowy", 244, 164, 96),
-        NamedColor("Siennowy", 160, 82, 45),
-        NamedColor("Kasztanowy", 205, 92, 92),
+        NamedColor("Brown", 165, 42, 42),
+        NamedColor("Chocolate", 210, 105, 30),
+        NamedColor("Sandy Brown", 244, 164, 96),
+        NamedColor("Sienna", 160, 82, 45),
+        NamedColor("Rosy Brown", 205, 92, 92),
         
         // Shades of gray
-        NamedColor("Jasnoszary", 211, 211, 211),
-        NamedColor("Srebro", 192, 192, 192),
-        NamedColor("Ciemnoszary", 169, 169, 169),
-        NamedColor("Grafitowy", 64, 64, 64),
+        NamedColor("Light Gray", 211, 211, 211),
+        NamedColor("Silver", 192, 192, 192),
+        NamedColor("Dark Gray", 169, 169, 169),
+        NamedColor("Dim Gray", 64, 64, 64),
         
         // Special colors
-        NamedColor("Kremowy", 255, 255, 240),
-        NamedColor("Bursztynowy", 255, 191, 0)
+        NamedColor("Ivory", 255, 255, 240),
+        NamedColor("Amber", 255, 191, 0)
     )
 
     /**
@@ -100,7 +100,7 @@ object ColorNameMapper {
      */
     fun getColorName(red: Int, green: Int, blue: Int): String {
         var minDistance = Double.MAX_VALUE
-        var closestColor = "Nieznany"
+        var closestColor = "Unknown"
 
         for (namedColor in namedColors) {
             val distance = calculateColorDistance(

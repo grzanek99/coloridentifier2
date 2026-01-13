@@ -158,6 +158,7 @@ class SavedColorsFragment : Fragment() {
         val options = arrayOf(
             getString(R.string.copy_hex),
             getString(R.string.copy_rgb),
+            "Copy All",
             getString(R.string.share_color),
             getString(R.string.delete_color)
         )
@@ -183,9 +184,22 @@ class SavedColorsFragment : Fragment() {
                         ).show()
                     }
                     2 -> {
-                        showShareOptionsDialog(color)
+                        val text = """
+                            Name: ${color.name}
+                            RGB: ${color.getRGBString()}
+                            HEX: ${color.hexValue}
+                        """.trimIndent()
+                        ShareUtils.copyToClipboard(requireContext(), "Color Info", text)
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.copied_to_clipboard),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     3 -> {
+                        showShareOptionsDialog(color)
+                    }
+                    4 -> {
                         showDeleteColorDialog(color)
                     }
                 }

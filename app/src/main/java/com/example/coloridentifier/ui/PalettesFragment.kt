@@ -165,7 +165,8 @@ class PalettesFragment : Fragment() {
         val options = arrayOf(
             getString(R.string.share_as_text),
             getString(R.string.share_as_json),
-            getString(R.string.share_as_image)
+            getString(R.string.share_as_image),
+            "Copy to Clipboard"
         )
 
         AlertDialog.Builder(requireContext())
@@ -175,6 +176,22 @@ class PalettesFragment : Fragment() {
                     0 -> ShareUtils.sharePaletteAsText(requireContext(), palette)
                     1 -> ShareUtils.sharePaletteAsJson(requireContext(), palette)
                     2 -> ShareUtils.sharePaletteAsImage(requireContext(), palette)
+                    3 -> {
+                        val text = buildString {
+                            append("Palette: ${palette.name}\n\n")
+                            palette.colors.forEachIndexed { index, color ->
+                                append("${index + 1}. ${color.name}\n")
+                                append("   ${color.getRGBString()}\n")
+                                append("   ${color.hexValue}\n\n")
+                            }
+                        }
+                        ShareUtils.copyToClipboard(requireContext(), "Palette", text)
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.copied_to_clipboard),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
             .show()
