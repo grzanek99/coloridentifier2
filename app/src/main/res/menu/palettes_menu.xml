@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- menu opcji dla ekranu palet -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- opcja usuniecia wszystkich palet -->
     <item
         android:id="@+id/action_clear_all_palettes"
         android:title="@string/clear_all_palettes"

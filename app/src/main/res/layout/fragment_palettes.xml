@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- layout dla fragmentu palet -->
 <androidx.constraintlayout.widget.ConstraintLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- lista palet kolorow -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/palettesRecyclerView"
         android:layout_width="0dp"
@@ -18,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_palette" />
 
+    <!-- tekst wyswietlany gdy brak palet -->
     <TextView
         android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
