@@ -5,52 +5,78 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- color wheel with hsv spectrum -->
-    <!-- center point at 54, 54 with radius 30 -->
+    <!-- kolo kolorow jako 12 segmentow co 30 stopni -->
+    <!-- srodek w punkcie 54,54 z promieniem 34 -->
     
-    <!-- red segment (0-60 degrees) -->
+    <!-- segment czerwony 0-30 stopni -->
     <path
         android:fillColor="#FF0000"
-        android:pathData="M54,54 L84,54 A30,30 0 0,1 69,80.98 Z" />
+        android:pathData="M54,54 L54,20 A34,34 0 0,1 71.4,28.6 Z"/>
     
-    <!-- yellow segment (60-120 degrees) -->
+    <!-- segment pomaranczowy 30-60 stopni -->
+    <path
+        android:fillColor="#FF8000"
+        android:pathData="M54,54 L71.4,28.6 A34,34 0 0,1 83,38 Z"/>
+    
+    <!-- segment zolty 60-90 stopni -->
     <path
         android:fillColor="#FFFF00"
-        android:pathData="M54,54 L69,80.98 A30,30 0 0,1 39,80.98 Z" />
+        android:pathData="M54,54 L83,38 A34,34 0 0,1 88,54 Z"/>
     
-    <!-- green segment (120-180 degrees) -->
+    <!-- segment zolto-zielony 90-120 stopni -->
+    <path
+        android:fillColor="#80FF00"
+        android:pathData="M54,54 L88,54 A34,34 0 0,1 83,70 Z"/>
+    
+    <!-- segment zielony 120-150 stopni -->
     <path
         android:fillColor="#00FF00"
-        android:pathData="M54,54 L39,80.98 A30,30 0 0,1 24,54 Z" />
+        android:pathData="M54,54 L83,70 A34,34 0 0,1 71.4,79.4 Z"/>
     
-    <!-- cyan segment (180-240 degrees) -->
+    <!-- segment zielono-cyjan 150-180 stopni -->
+    <path
+        android:fillColor="#00FF80"
+        android:pathData="M54,54 L71.4,79.4 A34,34 0 0,1 54,88 Z"/>
+    
+    <!-- segment cyjan 180-210 stopni -->
     <path
         android:fillColor="#00FFFF"
-        android:pathData="M54,54 L24,54 A30,30 0 0,1 39,27.02 Z" />
+        android:pathData="M54,54 L54,88 A34,34 0 0,1 36.6,79.4 Z"/>
     
-    <!-- blue segment (240-300 degrees) -->
+    <!-- segment cyjan-niebieski 210-240 stopni -->
+    <path
+        android:fillColor="#0080FF"
+        android:pathData="M54,54 L36.6,79.4 A34,34 0 0,1 25,70 Z"/>
+    
+    <!-- segment niebieski 240-270 stopni -->
     <path
         android:fillColor="#0000FF"
-        android:pathData="M54,54 L39,27.02 A30,30 0 0,1 69,27.02 Z" />
+        android:pathData="M54,54 L25,70 A34,34 0 0,1 20,54 Z"/>
     
-    <!-- magenta segment (300-360 degrees) -->
+    <!-- segment niebieski-fioletowy 270-300 stopni -->
+    <path
+        android:fillColor="#8000FF"
+        android:pathData="M54,54 L20,54 A34,34 0 0,1 25,38 Z"/>
+    
+    <!-- segment fioletowy 300-330 stopni -->
     <path
         android:fillColor="#FF00FF"
-        android:pathData="M54,54 L69,27.02 A30,30 0 0,1 84,54 Z" />
+        android:pathData="M54,54 L25,38 A34,34 0 0,1 36.6,28.6 Z"/>
     
-    <!-- white center circle -->
-    <circle
-        android:cx="54"
-        android:cy="54"
-        android:r="12"
-        android:fillColor="#FFFFFF" />
+    <!-- segment rozowy 330-360 stopni -->
+    <path
+        android:fillColor="#FF0080"
+        android:pathData="M54,54 L36.6,28.6 A34,34 0 0,1 54,20 Z"/>
     
-    <!-- black outline -->
-    <circle
-        android:cx="54"
-        android:cy="54"
-        android:r="30"
-        android:strokeColor="#000000"
+    <!-- bialy okrag w srodku -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0"/>
+    
+    <!-- szare obramowanie zewnetrzne -->
+    <path
+        android:strokeColor="#424242"
         android:strokeWidth="2"
-        android:fillColor="@android:color/transparent" />
+        android:fillColor="#00000000"
+        android:pathData="M54,54 m-34,0 a34,34 0 1,0 68,0 a34,34 0 1,0 -68,0"/>
 </vector>
