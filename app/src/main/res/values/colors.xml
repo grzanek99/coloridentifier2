@@ -1,41 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
+    <!-- kolory domyslne material design -->
+    <!-- fioletowy jasny material design -->
     <color name="purple_200">#FFBB86FC</color>
+    <!-- fioletowy sredni material design -->
     <color name="purple_500">#FF6200EE</color>
+    <!-- fioletowy ciemny material design -->
     <color name="purple_700">#FF3700B3</color>
+    <!-- niebieskozielony jasny material design -->
     <color name="teal_200">#FF03DAC5</color>
+    <!-- niebieskozielony ciemny material design -->
     <color name="teal_700">#FF018786</color>
+    <!-- czarny pelny -->
     <color name="black">#FF000000</color>
+    <!-- bialy pelny -->
     <color name="white">#FFFFFFFF</color>
     
-    <!-- App Colors -->
+    <!-- kolory glowne aplikacji -->
+    <!-- kolor glowny aplikacji - pomaranczowy -->
     <color name="primary">#FFFF9500</color>
+    <!-- ciemniejszy odcien pomaranczowego dla action bar -->
     <color name="primary_dark">#FFCC7700</color>
+    <!-- jasniejszy odcien pomaranczowego dla podswietlenia -->
     <color name="primary_light">#FFFFB84D</color>
+    <!-- kolor akcentu - taki sam jak primary -->
     <color name="accent">#FFFF9500</color>
     
-    <!-- Orange Shades -->
+    <!-- odcienie pomaranczowego -->
+    <!-- dodatkowy ciemny odcien pomaranczowego -->
     <color name="orange_darker">#FFCC7700</color>
+    <!-- dodatkowy jasny odcien pomaranczowego -->
     <color name="orange_lighter">#FFFFB84D</color>
+    <!-- bardzo jasny pomaranczowy dla tla -->
     <color name="orange_pale">#FFFFEACC</color>
     
-    <!-- Background Colors -->
+    <!-- kolory tla -->
+    <!-- kolor tla glownego ekranu -->
     <color name="background">#FFF5F5F5</color>
+    <!-- kolor tla kart i powierzchni -->
     <color name="surface">#FFFFFFFF</color>
     
-    <!-- Text Colors -->
+    <!-- kolory tekstu -->
+    <!-- kolor tekstu glownego -->
     <color name="text_primary">#DE000000</color>
+    <!-- kolor tekstu drugorzednego -->
     <color name="text_secondary">#99000000</color>
+    <!-- kolor tekstu wylaczonego -->
     <color name="text_disabled">#61000000</color>
     
-    <!-- Additional Colors -->
+    <!-- kolory dodatkowe -->
+    <!-- kolor linii podzialu -->
     <color name="divider">#1F000000</color>
+    <!-- kolor przezroczysty -->
     <color name="transparent">#00000000</color>
+    <!-- szary jasny -->
     <color name="gray_light">#FFE0E0E0</color>
+    <!-- szary sredni -->
     <color name="gray_medium">#FF9E9E9E</color>
+    <!-- szary ciemny -->
     <color name="gray_dark">#FF616161</color>
     
-    <!-- Selection -->
+    <!-- kolory zaznaczenia -->
+    <!-- kolor tla zaznaczonego elementu z alpha -->
     <color name="selected_background">#1AFF9500</color>
 </resources>
