@@ -23,6 +23,21 @@ class ColorWheelView @JvmOverloads constructor(
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val indicatorFillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     
+    // cursor position and visibility
+    private var cursorX = 0f
+    private var cursorY = 0f
+    private var showCursor = false
+    
+    // cursor appearance
+    private val cursorRadius = 15f
+    private val cursorStrokeWidth = 3f
+    private val cursorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val cursorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeWidth = cursorStrokeWidth
+        color = Color.BLACK
+    }
+    
     private var centerX = 0f
     private var centerY = 0f
     private var radius = 0f
@@ -94,6 +109,25 @@ class ColorWheelView @JvmOverloads constructor(
         canvas.drawCircle(indicatorX, indicatorY, 12f, indicatorPaint)
         indicatorFillPaint.color = Color.WHITE
         canvas.drawCircle(indicatorX, indicatorY, 10f, indicatorFillPaint)
+        
+        // draw cursor if visible
+        if (showCursor) {
+            drawCursor(canvas)
+        }
+    }
+
+    private fun drawCursor(canvas: Canvas) {
+        // inner white circle
+        cursorPaint.color = Color.WHITE
+        cursorPaint.style = Paint.Style.FILL
+        canvas.drawCircle(cursorX, cursorY, cursorRadius, cursorPaint)
+        
+        // black outline
+        canvas.drawCircle(cursorX, cursorY, cursorRadius, cursorStrokePaint)
+        
+        // small black dot in center
+        cursorPaint.color = Color.BLACK
+        canvas.drawCircle(cursorX, cursorY, 3f, cursorPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -102,21 +136,38 @@ class ColorWheelView @JvmOverloads constructor(
                 val touchX = event.x
                 val touchY = event.y
                 
-                // Oblicz kąt
-                val angle = ColorUtils.calculateAngle(touchX, touchY, centerX, centerY)
-                selectedAngle = angle
-                
-                // Oblicz odległość od środka
+                // check if touch is within the color wheel
                 val distance = ColorUtils.calculateDistance(touchX, touchY, centerX, centerY)
-                // Normalizuj saturację (0 = środek/biały, 1 = krawędź/pełny kolor)
-                selectedSaturation = (distance / radius).coerceIn(0f, 1f)
-                
-                // Pobierz kolor z kąta i saturacji
-                val selectedColor = ColorUtils.getColorFromAngle(angle, selectedSaturation, value)
-                onColorSelectedListener?.invoke(selectedColor)
-                
+                if (distance <= radius) {
+                    // update cursor position for smooth following
+                    cursorX = touchX
+                    cursorY = touchY
+                    showCursor = true
+                    
+                    // Oblicz kąt
+                    val angle = ColorUtils.calculateAngle(touchX, touchY, centerX, centerY)
+                    selectedAngle = angle
+                    
+                    // Oblicz odległość od środka
+                    // Normalizuj saturację (0 = środek/biały, 1 = krawędź/pełny kolor)
+                    selectedSaturation = (distance / radius).coerceIn(0f, 1f)
+                    
+                    // Pobierz kolor z kąta i saturacji
+                    val selectedColor = ColorUtils.getColorFromAngle(angle, selectedSaturation, value)
+                    onColorSelectedListener?.invoke(selectedColor)
+                    
+                    invalidate()
+                    return true
+                } else {
+                    // hide cursor when touch is outside wheel
+                    showCursor = false
+                    invalidate()
+                }
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                // hide cursor when finger is released
+                showCursor = false
                 invalidate()
-                return true
             }
         }
         return super.onTouchEvent(event)

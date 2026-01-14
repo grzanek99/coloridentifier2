@@ -10,10 +10,15 @@
     <color name="white">#FFFFFFFF</color>
     
     <!-- App Colors -->
-    <color name="primary">#FF2196F3</color>
-    <color name="primary_dark">#FF1976D2</color>
-    <color name="primary_light">#FFBBDEFB</color>
-    <color name="accent">#FFFF5722</color>
+    <color name="primary">#FFFF9500</color>
+    <color name="primary_dark">#FFCC7700</color>
+    <color name="primary_light">#FFFFB84D</color>
+    <color name="accent">#FFFF9500</color>
+    
+    <!-- Orange Shades -->
+    <color name="orange_darker">#FFCC7700</color>
+    <color name="orange_lighter">#FFFFB84D</color>
+    <color name="orange_pale">#FFFFEACC</color>
     
     <!-- Background Colors -->
     <color name="background">#FFF5F5F5</color>
@@ -32,5 +37,5 @@
     <color name="gray_dark">#FF616161</color>
     
     <!-- Selection -->
-    <color name="selected_background">#1A2196F3</color>
+    <color name="selected_background">#1AFF9500</color>
 </resources>

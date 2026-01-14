@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- color wheel with hsv spectrum -->
+    <!-- center point at 54, 54 with radius 30 -->
+    
+    <!-- red segment (0-60 degrees) -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M54,54 L84,54 A30,30 0 0,1 69,80.98 Z" />
+    
+    <!-- yellow segment (60-120 degrees) -->
+    <path
+        android:fillColor="#FFFF00"
+        android:pathData="M54,54 L69,80.98 A30,30 0 0,1 39,80.98 Z" />
+    
+    <!-- green segment (120-180 degrees) -->
+    <path
+        android:fillColor="#00FF00"
+        android:pathData="M54,54 L39,80.98 A30,30 0 0,1 24,54 Z" />
+    
+    <!-- cyan segment (180-240 degrees) -->
+    <path
+        android:fillColor="#00FFFF"
+        android:pathData="M54,54 L24,54 A30,30 0 0,1 39,27.02 Z" />
+    
+    <!-- blue segment (240-300 degrees) -->
+    <path
+        android:fillColor="#0000FF"
+        android:pathData="M54,54 L39,27.02 A30,30 0 0,1 69,27.02 Z" />
+    
+    <!-- magenta segment (300-360 degrees) -->
+    <path
+        android:fillColor="#FF00FF"
+        android:pathData="M54,54 L69,27.02 A30,30 0 0,1 84,54 Z" />
+    
+    <!-- white center circle -->
+    <circle
+        android:cx="54"
+        android:cy="54"
+        android:r="12"
+        android:fillColor="#FFFFFF" />
+    
+    <!-- black outline -->
+    <circle
+        android:cx="54"
+        android:cy="54"
+        android:r="30"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:fillColor="@android:color/transparent" />
+</vector>

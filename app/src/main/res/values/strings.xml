@@ -39,7 +39,7 @@
     <string name="share_palette">Share Palette</string>
     <string name="share_as_image">Share as Image</string>
     <string name="share_as_text">Share as Text</string>
-    <string name="share_as_json">Share as JSON</string>
+    <string name="copy_to_clipboard">Copy to Clipboard</string>
     <string name="palette_name">Palette Name</string>
     <string name="enter_palette_name">Enter palette name</string>
     <string name="save">Save</string>
