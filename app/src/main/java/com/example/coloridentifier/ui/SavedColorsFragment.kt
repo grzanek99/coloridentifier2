@@ -219,6 +219,7 @@ class SavedColorsFragment : Fragment() {
     }
 
     private fun showColorOptionsDialog(color: Color) {
+        // tablica z opcjami
         val options = arrayOf(
             getString(R.string.copy_hex),
             getString(R.string.copy_rgb),
@@ -227,103 +228,149 @@ class SavedColorsFragment : Fragment() {
             getString(R.string.delete_color)
         )
 
+        // tworzy i pokazuje dialog opcji
         AlertDialog.Builder(requireContext())
+            // ustawia tytul na nazwe koloru
             .setTitle(color.name)
+            // ustawia liste opcji
             .setItems(options) { _, which ->
+                // obsluguje wybor opcji
                 when (which) {
+                    // opcja 0 kopiuj hex
                     0 -> {
+                        // kopiuje hex do schowka
                         ShareUtils.copyToClipboard(requireContext(), "HEX", color.hexValue)
+                        // pokazuje komunikat potwierdzajacy
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.copied_to_clipboard),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    // opcja 1 kopiuj rgb
                     1 -> {
+                        // kopiuje rgb do schowka
                         ShareUtils.copyToClipboard(requireContext(), "RGB", color.getRGBString())
+                        // pokazuje komunikat potwierdzajacy
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.copied_to_clipboard),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    // opcja 2 kopiuj wszystko
                     2 -> {
+                        // tworzy pelny tekst z informacjami
                         val text = """
                             Name: ${color.name}
                             RGB: ${color.getRGBString()}
                             HEX: ${color.hexValue}
                         """.trimIndent()
+                        // kopiuje do schowka
                         ShareUtils.copyToClipboard(requireContext(), "Color Info", text)
+                        // pokazuje komunikat potwierdzajacy
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.copied_to_clipboard),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                    // opcja 3 udostepnij
                     3 -> {
+                        // pokazuje dialog opcji udostepniania
                         showShareOptionsDialog(color)
                     }
+                    // opcja 4 usun
                     4 -> {
+                        // pokazuje dialog potwierdzenia usuniecia
                         showDeleteColorDialog(color)
                     }
                 }
             }
+            // wyswietla dialog
             .show()
     }
 
     private fun showShareOptionsDialog(color: Color) {
+        // tablica z opcjami udostepniania
         val options = arrayOf(
             getString(R.string.share_as_text),
             getString(R.string.share_as_image)
         )
 
+        // tworzy i pokazuje dialog opcji
         AlertDialog.Builder(requireContext())
+            // ustawia tytul
             .setTitle(getString(R.string.share_color))
+            // ustawia liste opcji
             .setItems(options) { _, which ->
+                // obsluguje wybor opcji
                 when (which) {
+                    // opcja 0 udostepnij jako tekst
                     0 -> ShareUtils.shareColorAsText(requireContext(), color)
+                    // opcja 1 udostepnij jako obraz
                     1 -> ShareUtils.shareColorAsImage(requireContext(), color)
                 }
             }
+            // wyswietla dialog
             .show()
     }
 
     private fun showDeleteColorDialog(color: Color) {
+        // tworzy i pokazuje dialog potwierdzenia
         AlertDialog.Builder(requireContext())
+            // ustawia tytul
             .setTitle(getString(R.string.confirm_delete))
+            // ustawia pytanie
             .setMessage(getString(R.string.confirm_delete_color))
+            // dodaje przycisk usun
             .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                // usuwa kolor z viewmodel
                 colorViewModel.deleteColor(color)
+                // pokazuje komunikat potwierdzajacy
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.color_deleted),
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            // dodaje przycisk anuluj
             .setNegativeButton(getString(R.string.cancel), null)
+            // wyswietla dialog
             .show()
     }
 
     private fun showClearAllDialog() {
+        // tworzy i pokazuje dialog potwierdzenia
         AlertDialog.Builder(requireContext())
+            // ustawia tytul
             .setTitle(getString(R.string.clear_all_colors))
+            // ustawia pytanie
             .setMessage(getString(R.string.confirm_clear_all))
+            // dodaje przycisk tak
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                // czysci wszystkie kolory
                 colorViewModel.clearAllColors()
+                // pokazuje komunikat potwierdzajacy
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.colors_cleared),
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            // dodaje przycisk nie
             .setNegativeButton(getString(R.string.no), null)
+            // wyswietla dialog
             .show()
     }
 
     private fun showCreatePaletteDialog() {
+        // pobiera liste zaznaczonych kolorow
         val selectedColors = colorViewModel.getSelectedColorsList()
         
+        // sprawdza czy lista nie jest pusta
         if (selectedColors.isEmpty()) {
+            // pokazuje komunikat o braku zaznaczenia
             Toast.makeText(
                 requireContext(),
                 getString(R.string.select_at_least_one_color),
@@ -332,23 +379,35 @@ class SavedColorsFragment : Fragment() {
             return
         }
 
+        // tworzy pole tekstowe
         val input = EditText(requireContext())
+        // ustawia placeholder
         input.hint = getString(R.string.enter_palette_name)
 
+        // tworzy i pokazuje dialog
         AlertDialog.Builder(requireContext())
+            // ustawia tytul
             .setTitle(getString(R.string.palette_name))
+            // dodaje pole tekstowe
             .setView(input)
+            // dodaje przycisk zapisz
             .setPositiveButton(getString(R.string.save)) { _, _ ->
+                // pobiera nazwe i usuwa biale znaki
                 val name = input.text.toString().trim()
+                // sprawdza czy nazwa nie jest pusta
                 if (name.isNotBlank()) {
+                    // tworzy palete w viewmodel
                     if (paletteViewModel.createPalette(name, selectedColors)) {
+                        // pokazuje komunikat sukcesu
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.palette_created),
                             Toast.LENGTH_SHORT
                         ).show()
+                        // wylacza tryb zaznaczania
                         exitSelectionMode()
                     } else {
+                        // pokazuje komunikat o bledzie
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.error_creating_palette),
@@ -356,6 +415,7 @@ class SavedColorsFragment : Fragment() {
                         ).show()
                     }
                 } else {
+                    // pokazuje komunikat o niepoprawnej nazwie
                     Toast.makeText(
                         requireContext(),
                         getString(R.string.invalid_palette_name),
@@ -363,12 +423,15 @@ class SavedColorsFragment : Fragment() {
                     ).show()
                 }
             }
+            // dodaje przycisk anuluj
             .setNegativeButton(getString(R.string.cancel), null)
+            // wyswietla dialog
             .show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // czysci binding zeby uniknac wyciekow pamieci
         _binding = null
     }
 }
