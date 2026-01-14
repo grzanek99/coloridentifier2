@@ -24,14 +24,23 @@ import com.example.coloridentifier.utils.ShareUtils
 import com.example.coloridentifier.viewmodel.ColorViewModel
 import com.example.coloridentifier.viewmodel.PaletteViewModel
 
+/**
+ * fragment wyswietlajacy zapisane kolory
+ */
 class SavedColorsFragment : Fragment() {
 
+    // nullable binding dla layoutu fragmentu
     private var _binding: FragmentSavedColorsBinding? = null
+    // non-null binding getter
     private val binding get() = _binding!!
+    // viewmodel kolorow wspoldzielony z aktywnoscia
     private val colorViewModel: ColorViewModel by activityViewModels()
+    // viewmodel palet wspoldzielony z aktywnoscia
     private val paletteViewModel: PaletteViewModel by activityViewModels()
     
+    // adapter recyclerview dla kolorow
     private lateinit var colorAdapter: ColorAdapter
+    // flaga trybu zaznaczania kolorow
     private var isSelectionMode = false
 
     override fun onCreateView(
@@ -39,93 +48,137 @@ class SavedColorsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // inflatuje layout fragmentu za pomoca view binding
         _binding = FragmentSavedColorsBinding.inflate(inflater, container, false)
+        // zwraca root widoku
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // konfiguruje recyclerview
         setupRecyclerView()
+        // konfiguruje observery livedata
         setupObservers()
+        // konfiguruje listenery klikniec
         setupClickListeners()
+        // konfiguruje menu w toolbarze
         setupMenu()
     }
 
     private fun setupRecyclerView() {
+        // tworzy adapter z callbackami
         colorAdapter = ColorAdapter(
             colors = emptyList(),
+            // callback dla zwyklego klikniecia
             onColorClick = { color ->
+                // sprawdza czy aktywny tryb zaznaczania
                 if (isSelectionMode) {
+                    // przelacza zaznaczenie koloru
                     colorViewModel.toggleColorSelection(color)
                 } else {
+                    // pokazuje opcje koloru
                     showColorOptionsDialog(color)
                 }
             },
+            // callback dla dlugiego klikniecia
             onColorLongClick = { color ->
+                // wlacza tryb zaznaczania jesli nieaktywny
                 if (!isSelectionMode) {
+                    // rozpoczyna tryb zaznaczania
                     startSelectionMode()
+                    // zaznacza klikniety kolor
                     colorViewModel.toggleColorSelection(color)
                 }
             },
+            // funkcja sprawdzajaca czy kolor zaznaczony
             isColorSelected = { color ->
                 colorViewModel.isColorSelected(color)
             }
         )
 
+        // konfiguruje recyclerview
         binding.colorsRecyclerView.apply {
+            // ustawia layout manager linearny
             layoutManager = LinearLayoutManager(requireContext())
+            // ustawia adapter
             adapter = colorAdapter
         }
     }
 
     private fun setupObservers() {
+        // obserwuje zmiany w liscie kolorow
         colorViewModel.colors.observe(viewLifecycleOwner) { colors ->
+            // sprawdza czy lista pusta
             if (colors.isEmpty()) {
+                // pokazuje tekst pustej listy
                 binding.emptyTextView.visibility = View.VISIBLE
+                // ukrywa recyclerview
                 binding.colorsRecyclerView.visibility = View.GONE
             } else {
+                // ukrywa tekst pustej listy
                 binding.emptyTextView.visibility = View.GONE
+                // pokazuje recyclerview
                 binding.colorsRecyclerView.visibility = View.VISIBLE
+                // aktualizuje adapter nowymi kolorami
                 colorAdapter.updateColors(colors)
             }
         }
 
+        // obserwuje zmiany w zaznaczonych kolorach
         colorViewModel.selectedColors.observe(viewLifecycleOwner) { selectedColors ->
+            // aktualizuje interfejs zaznaczenia
             updateSelectionUI(selectedColors.size)
+            // odswieza adapter
             colorAdapter.notifyDataSetChanged()
         }
     }
 
     private fun setupClickListeners() {
+        // listener przycisku utworz palete
         binding.createPaletteButton.setOnClickListener {
+            // pokazuje dialog tworzenia palety
             showCreatePaletteDialog()
         }
 
+        // listener przycisku anuluj zaznaczenie
         binding.cancelSelectionButton.setOnClickListener {
+            // wylacza tryb zaznaczania
             exitSelectionMode()
         }
     }
 
     private fun setupMenu() {
+        // pobiera menu host z aktywnosci
         val menuHost: MenuHost = requireActivity()
+        // dodaje provider menu
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // czysci istniejace menu
                 menu.clear()
+                // sprawdza czy nie w trybie zaznaczania
                 if (!isSelectionMode) {
+                    // inflatuje menu z xml
                     menuInflater.inflate(R.menu.saved_colors_menu, menu)
                 }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // obsluguje wybor elementu menu
                 return when (menuItem.itemId) {
+                    // opcja wyczysc wszystko
                     R.id.action_clear_all -> {
+                        // pokazuje dialog potwierdzenia
                         showClearAllDialog()
                         true
                     }
+                    // opcja zaznacz kolory
                     R.id.action_select_colors -> {
+                        // wlacza tryb zaznaczania
                         startSelectionMode()
                         true
                     }
+                    // inny element nie obsluzony
                     else -> false
                 }
             }
@@ -133,23 +186,34 @@ class SavedColorsFragment : Fragment() {
     }
 
     private fun startSelectionMode() {
+        // wlacza flage trybu zaznaczania
         isSelectionMode = true
+        // aktualizuje interfejs zaznaczenia
         updateSelectionUI(0)
+        // odswieza menu
         requireActivity().invalidateOptionsMenu()
     }
 
     private fun exitSelectionMode() {
+        // wylacza flage trybu zaznaczania
         isSelectionMode = false
+        // czysci zaznaczenie w viewmodel
         colorViewModel.clearSelection()
+        // ukrywa przyciski akcji
         binding.actionButtonsLayout.visibility = View.GONE
+        // odswieza menu
         requireActivity().invalidateOptionsMenu()
     }
 
     private fun updateSelectionUI(count: Int) {
+        // sprawdza czy tryb zaznaczania i sa zaznaczone kolory
         if (isSelectionMode && count > 0) {
+            // pokazuje layout z przyciskami akcji
             binding.actionButtonsLayout.visibility = View.VISIBLE
+            // ustawia tekst z liczba zaznaczonych
             binding.selectionCountText.text = getString(R.string.selected_count, count)
         } else if (!isSelectionMode) {
+            // ukrywa przyciski akcji gdy nie w trybie zaznaczania
             binding.actionButtonsLayout.visibility = View.GONE
         }
     }
