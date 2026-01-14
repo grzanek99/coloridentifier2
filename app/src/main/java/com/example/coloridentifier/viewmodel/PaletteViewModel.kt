@@ -9,108 +9,139 @@ import com.example.coloridentifier.model.Color
 import com.example.coloridentifier.model.Palette
 
 /**
- * ViewModel for managing palettes
+ * viewmodel zarzadzajacy paletami
  */
 class PaletteViewModel(application: Application) : AndroidViewModel(application) {
 
+    // instancja repozytorium palet
     private val repository = PaletteRepository(application)
     
+    // mutable livedata z lista palet
     private val _palettes = MutableLiveData<List<Palette>>()
+    // publiczne livedata z lista palet
     val palettes: LiveData<List<Palette>> = _palettes
 
     init {
+        // laduje palety podczas inicjalizacji
         loadPalettes()
     }
 
     /**
-     * Loads all saved palettes
+     * laduje wszystkie zapisane palety
      */
     fun loadPalettes() {
+        // pobiera palety z repozytorium i ustawia w livedata
         _palettes.value = repository.getAllPalettes()
     }
 
     /**
-     * Saves a new palette
+     * zapisuje nowa palete
      */
     fun savePalette(palette: Palette): Boolean {
+        // zapisuje palete w repozytorium
         val result = repository.savePalette(palette)
+        // sprawdza czy operacja sie powiodla
         if (result) {
+            // przeladowuje liste palet
             loadPalettes()
         }
+        // zwraca wynik operacji
         return result
     }
 
     /**
-     * Creates and saves a palette from list of colors
+     * tworzy i zapisuje palete z listy kolorow
      */
     fun createPalette(name: String, colors: List<Color>): Boolean {
+        // waliduje liczbe kolorow
         if (colors.isEmpty() || colors.size > 5) {
+            // zwraca false dla niepoprawnej liczby
             return false
         }
         
+        // tworzy nowy obiekt palety
         val palette = Palette(
             name = name,
             colors = colors.toMutableList()
         )
         
+        // zapisuje palete
         return savePalette(palette)
     }
 
     /**
-     * Deletes a palette
+     * usuwa palete
      */
     fun deletePalette(palette: Palette): Boolean {
+        // usuwa palete z repozytorium
         val result = repository.deletePalette(palette)
+        // sprawdza czy operacja sie powiodla
         if (result) {
+            // przeladowuje liste palet
             loadPalettes()
         }
+        // zwraca wynik operacji
         return result
     }
 
     /**
-     * Clears all palettes
+     * usuwa wszystkie palety
      */
     fun clearAllPalettes(): Boolean {
+        // usuwa wszystkie palety z repozytorium
         val result = repository.clearAllPalettes()
+        // sprawdza czy operacja sie powiodla
         if (result) {
+            // przeladowuje liste palet
             loadPalettes()
         }
+        // zwraca wynik operacji
         return result
     }
 
     /**
-     * Updates palette name
+     * aktualizuje nazwe palety
      */
     fun updatePaletteName(paletteId: String, newName: String): Boolean {
+        // aktualizuje nazwe w repozytorium
         val result = repository.updatePaletteName(paletteId, newName)
+        // sprawdza czy operacja sie powiodla
         if (result) {
+            // przeladowuje liste palet
             loadPalettes()
         }
+        // zwraca wynik operacji
         return result
     }
 
     /**
-     * Updates an existing palette
+     * aktualizuje istniejaca palete
      */
     fun updatePalette(palette: Palette): Boolean {
+        // aktualizuje palete w repozytorium
         val result = repository.updatePalette(palette)
+        // sprawdza czy operacja sie powiodla
         if (result) {
+            // przeladowuje liste palet
             loadPalettes()
         }
+        // zwraca wynik operacji
         return result
     }
 
     /**
-     * Gets palette count
+     * zwraca liczbe wszystkich palet
      */
     fun getPaletteCount(): Int {
+        // pobiera liczbe palet z repozytorium
         return repository.getPaletteCount()
     }
 
     /**
-     * Gets palette by ID
+     * pobiera palete po identyfikatorze
      */
     fun getPaletteById(paletteId: String): Palette? {
+        // szuka i zwraca palete z repozytorium
         return repository.getPaletteById(paletteId)
     }
 }
