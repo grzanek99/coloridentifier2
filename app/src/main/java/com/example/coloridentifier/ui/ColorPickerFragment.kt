@@ -203,7 +203,7 @@ class ColorPickerFragment : Fragment() {
     private fun checkStoragePermissionAndPick() {
         // wybiera odpowiednie uprawnienie w zaleznosci od wersji android
         val permission = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            // android 13+ uzywasystem permissions do zdjec
+            // android 13+ uzywa system permissions do zdjec
             Manifest.permission.READ_MEDIA_IMAGES
         } else {
             // starsze wersje uzywaja zewnetrznego storage
