@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -13,7 +11,7 @@ import com.example.coloridentifier.utils.ColorUtils
 import kotlin.math.min
 
 /**
- * Custom view for circular RGB color wheel
+ * Custom view for circular RGB color wheel with saturation gradient
  */
 class ColorWheelView @JvmOverloads constructor(
     context: Context,
@@ -23,13 +21,15 @@ class ColorWheelView @JvmOverloads constructor(
 
     private val wheelPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val indicatorFillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     
     private var centerX = 0f
     private var centerY = 0f
     private var radius = 0f
-    private var brightness = 1f
+    private var value = 1f  // Zmienione z brightness na value (dla HSV)
     
     private var selectedAngle = 0f
+    private var selectedSaturation = 1f  // Nowe pole dla saturacji
     private var onColorSelectedListener: ((Int) -> Unit)? = null
 
     init {
@@ -38,6 +38,10 @@ class ColorWheelView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeWidth = 8f
         }
+        indicatorFillPaint.apply {
+            color = Color.WHITE
+            style = Paint.Style.FILL
+        }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -45,34 +49,51 @@ class ColorWheelView @JvmOverloads constructor(
         centerX = w / 2f
         centerY = h / 2f
         radius = min(w, h) / 2f - 20f
-        
-        // Create color wheel gradient
-        updateWheelGradient()
-    }
-
-    private fun updateWheelGradient() {
-        // Create full spectrum of colors (360 degrees)
-        val colors = IntArray(361)
-        for (i in 0..360) {
-            colors[i] = ColorUtils.getColorFromAngle(i.toFloat(), 1f, brightness)
-        }
-        
-        val gradient = SweepGradient(centerX, centerY, colors, null)
-        wheelPaint.shader = gradient
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         
-        // Draw color wheel
-        canvas.drawCircle(centerX, centerY, radius, wheelPaint)
+        // Rysuj koło koloru z gradientem saturacji (od białego w środku do pełnego koloru na krawędzi)
+        // Używamy podejścia z wieloma małymi segmentami dla płynnego gradientu
+        val angleStep = 2f  // Co 2 stopnie dla wydajności
+        val radiusSteps = 30  // 30 pierścieni radialnych
         
-        // Draw selection indicator
+        for (angleIndex in 0 until (360 / angleStep.toInt())) {
+            val angle = angleIndex * angleStep
+            
+            for (radiusIndex in 0 until radiusSteps) {
+                val saturation = (radiusIndex + 1).toFloat() / radiusSteps
+                val currentRadius = radius * radiusIndex / radiusSteps
+                val nextRadius = radius * (radiusIndex + 1) / radiusSteps
+                
+                val color = ColorUtils.getColorFromAngle(angle, saturation, value)
+                val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+                paint.color = color
+                paint.style = Paint.Style.FILL
+                
+                val rect = android.graphics.RectF(
+                    centerX - nextRadius,
+                    centerY - nextRadius,
+                    centerX + nextRadius,
+                    centerY + nextRadius
+                )
+                canvas.drawArc(rect, angle - angleStep/2, angleStep, true, paint)
+            }
+        }
+        
+        // Rysuj wskaźnik wyboru
+        val distance = radius * selectedSaturation
         val angle = Math.toRadians(selectedAngle.toDouble())
-        val indicatorX = centerX + (radius * 0.85f * Math.cos(angle)).toFloat()
-        val indicatorY = centerY + (radius * 0.85f * Math.sin(angle)).toFloat()
+        val indicatorX = centerX + (distance * Math.cos(angle)).toFloat()
+        val indicatorY = centerY + (distance * Math.sin(angle)).toFloat()
         
-        canvas.drawCircle(indicatorX, indicatorY, 15f, indicatorPaint)
+        // Rysuj białe kółko z czarnym obramowaniem
+        indicatorPaint.color = Color.BLACK
+        indicatorPaint.strokeWidth = 3f
+        canvas.drawCircle(indicatorX, indicatorY, 12f, indicatorPaint)
+        indicatorFillPaint.color = Color.WHITE
+        canvas.drawCircle(indicatorX, indicatorY, 10f, indicatorFillPaint)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -81,12 +102,17 @@ class ColorWheelView @JvmOverloads constructor(
                 val touchX = event.x
                 val touchY = event.y
                 
-                // Calculate angle
+                // Oblicz kąt
                 val angle = ColorUtils.calculateAngle(touchX, touchY, centerX, centerY)
                 selectedAngle = angle
                 
-                // Get color at that angle
-                val selectedColor = ColorUtils.getColorFromAngle(angle, 1f, brightness)
+                // Oblicz odległość od środka
+                val distance = ColorUtils.calculateDistance(touchX, touchY, centerX, centerY)
+                // Normalizuj saturację (0 = środek/biały, 1 = krawędź/pełny kolor)
+                selectedSaturation = (distance / radius).coerceIn(0f, 1f)
+                
+                // Pobierz kolor z kąta i saturacji
+                val selectedColor = ColorUtils.getColorFromAngle(angle, selectedSaturation, value)
                 onColorSelectedListener?.invoke(selectedColor)
                 
                 invalidate()
@@ -97,29 +123,42 @@ class ColorWheelView @JvmOverloads constructor(
     }
 
     /**
-     * Sets brightness value (0-1)
+     * Ustawia wartość value (0-1) - od czarnego do pełnego koloru
      */
-    fun setBrightness(value: Float) {
-        brightness = value.coerceIn(0f, 1f)
-        updateWheelGradient()
+    fun setValue(newValue: Float) {
+        value = newValue.coerceIn(0f, 1f)
         invalidate()
         
-        // Update selected color with new brightness
-        val selectedColor = ColorUtils.getColorFromAngle(selectedAngle, 1f, brightness)
+        // Aktualizuj wybrany kolor z nową wartością
+        val selectedColor = ColorUtils.getColorFromAngle(selectedAngle, selectedSaturation, value)
         onColorSelectedListener?.invoke(selectedColor)
     }
 
     /**
-     * Sets listener for color selection
+     * Zachowana metoda dla kompatybilności wstecznej
+     */
+    fun setBrightness(brightness: Float) {
+        setValue(brightness)
+    }
+
+    /**
+     * Ustawia listener dla wyboru koloru
      */
     fun setOnColorSelectedListener(listener: (Int) -> Unit) {
         onColorSelectedListener = listener
     }
 
     /**
-     * Gets currently selected color
+     * Pobiera aktualnie wybrany kolor
      */
     fun getSelectedColor(): Int {
-        return ColorUtils.getColorFromAngle(selectedAngle, 1f, brightness)
+        return ColorUtils.getColorFromAngle(selectedAngle, selectedSaturation, value)
+    }
+    
+    /**
+     * Pobiera aktualny hue (dla gradientu suwaka)
+     */
+    fun getSelectedHue(): Float {
+        return selectedAngle
     }
 }

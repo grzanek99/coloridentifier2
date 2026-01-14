@@ -22,6 +22,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
@@ -30,6 +36,13 @@
                 android:visibility="gone"
                 tools:src="@android:drawable/ic_menu_gallery"
                 tools:visibility="visible" />
+
+            <View
+                android:id="@+id/touchMarker"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/touch_marker"
+                android:visibility="gone" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/colorInfoCard"
@@ -44,33 +57,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/padding_medium">
+                    android:padding="12dp">
 
                     <View
                         android:id="@+id/colorPreview"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="50dp"
                         tools:background="@color/primary" />
 
                     <TextView
                         android:id="@+id/colorName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:layout_marginTop="@dimen/spacing_small"
                         android:gravity="center"
                         android:textColor="@color/text_primary"
-                        android:textSize="@dimen/text_size_title"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        tools:text="Czerwony" />
+                        tools:text="Red" />
 
                     <TextView
                         android:id="@+id/colorHex"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_marginTop="@dimen/spacing_tiny"
                         android:gravity="center"
                         android:textColor="@color/text_secondary"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="14sp"
                         tools:text="#FF0000" />
 
                     <TextView
@@ -80,15 +93,38 @@
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:gravity="center"
                         android:textColor="@color/text_secondary"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="14sp"
                         tools:text="RGB(255, 0, 0)" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/saveColorButton"
-                        style="@style/AppButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:text="@string/save_color" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/saveColorButton"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="@string/save_color" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/copyAllButton"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="Copy All" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -117,6 +153,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCapturePhoto"
+            style="@style/AppButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="Capture Photo"
+            android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/chooseImageButton"
