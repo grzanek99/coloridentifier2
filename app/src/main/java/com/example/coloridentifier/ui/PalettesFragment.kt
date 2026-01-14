@@ -163,38 +163,44 @@ class PalettesFragment : Fragment() {
 
     private fun showSharePaletteDialog(palette: Palette) {
         val options = arrayOf(
-            getString(R.string.share_as_text),
-            getString(R.string.share_as_json),
             getString(R.string.share_as_image),
-            "Copy to Clipboard"
+            getString(R.string.share_as_text),
+            getString(R.string.copy_to_clipboard)
         )
 
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.share_palette))
             .setItems(options) { _, which ->
                 when (which) {
-                    0 -> ShareUtils.sharePaletteAsText(requireContext(), palette)
-                    1 -> ShareUtils.sharePaletteAsJson(requireContext(), palette)
-                    2 -> ShareUtils.sharePaletteAsImage(requireContext(), palette)
-                    3 -> {
-                        val text = buildString {
-                            append("Palette: ${palette.name}\n\n")
-                            palette.colors.forEachIndexed { index, color ->
-                                append("${index + 1}. ${color.name}\n")
-                                append("   ${color.getRGBString()}\n")
-                                append("   ${color.hexValue}\n\n")
-                            }
-                        }
-                        ShareUtils.copyToClipboard(requireContext(), "Palette", text)
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.copied_to_clipboard),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    0 -> ShareUtils.sharePaletteAsImage(requireContext(), palette)
+                    1 -> ShareUtils.sharePaletteAsText(requireContext(), palette)
+                    2 -> copyPaletteToClipboard(palette)
                 }
             }
             .show()
+    }
+
+    private fun copyPaletteToClipboard(palette: Palette) {
+        // create formatted text with all colors
+        val text = buildString {
+            append("Palette: ${palette.name}\n\n")
+            palette.colors.forEachIndexed { index, color ->
+                append("${index + 1}. ${color.name}\n")
+                append("   ${color.getRGBString()}\n")
+                append("   ${color.hexValue}\n")
+                if (index < palette.colors.size - 1) {
+                    append("\n")
+                }
+            }
+        }
+        
+        // copy to clipboard
+        ShareUtils.copyToClipboard(requireContext(), "Palette", text)
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.copied_to_clipboard),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun showDeletePaletteDialog(palette: Palette) {
