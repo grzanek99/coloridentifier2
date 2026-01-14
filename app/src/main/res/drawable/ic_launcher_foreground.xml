@@ -39,18 +39,14 @@
         android:pathData="M54,54 L69,27.02 A30,30 0 0,1 84,54 Z" />
     
     <!-- white center circle -->
-    <circle
-        android:cx="54"
-        android:cy="54"
-        android:r="12"
-        android:fillColor="#FFFFFF" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0" />
     
     <!-- black outline -->
-    <circle
-        android:cx="54"
-        android:cy="54"
-        android:r="30"
+    <path
         android:strokeColor="#000000"
         android:strokeWidth="2"
-        android:fillColor="@android:color/transparent" />
+        android:fillColor="@android:color/transparent"
+        android:pathData="M54,54 m-30,0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
 </vector>
