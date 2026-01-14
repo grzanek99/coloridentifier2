@@ -8,11 +8,6 @@
     <!-- ikona foreground aplikacji color identifier -->
     <!-- przedstawia palete z 5 kolorami -->
     
-    <!-- tlo biale dla ikony -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M0,0h108v108h-108z"/>
-    
     <!-- glowne kolo w kolorze aplikacji #ff9500 -->
     <path
         android:fillColor="#FF9500"
