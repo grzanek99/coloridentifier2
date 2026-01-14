@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- layout dla fragmentu wyboru koloru z obrazu -->
 <androidx.constraintlayout.widget.ConstraintLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,6 +8,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padding_medium">
 
+    <!-- scrollview dla zawartosci obrazu i informacji -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -16,18 +18,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- kontener pionowy na elementy -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
+            <!-- widok podgladu kamery -->
             <androidx.camera.view.PreviewView
                 android:id="@+id/previewView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:visibility="gone" />
 
+            <!-- widok zaladowanego obrazu -->
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
@@ -37,6 +42,7 @@
                 tools:src="@android:drawable/ic_menu_gallery"
                 tools:visibility="visible" />
 
+            <!-- marker punktu dotyku na obrazie -->
             <View
                 android:id="@+id/touchMarker"
                 android:layout_width="20dp"
@@ -44,6 +50,7 @@
                 android:background="@drawable/touch_marker"
                 android:visibility="gone" />
 
+            <!-- karta z informacjami o wybranym kolorze -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/colorInfoCard"
                 style="@style/AppCardView"
@@ -53,18 +60,21 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
+                <!-- kontener na elementy informacji o kolorze -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="12dp">
 
+                    <!-- podglad wybranego koloru -->
                     <View
                         android:id="@+id/colorPreview"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         tools:background="@color/primary" />
 
+                    <!-- nazwa koloru -->
                     <TextView
                         android:id="@+id/colorName"
                         android:layout_width="match_parent"
@@ -76,6 +86,7 @@
                         android:textStyle="bold"
                         tools:text="Red" />
 
+                    <!-- wartosc hexadecymalna koloru -->
                     <TextView
                         android:id="@+id/colorHex"
                         android:layout_width="match_parent"
@@ -86,6 +97,7 @@
                         android:textSize="14sp"
                         tools:text="#FF0000" />
 
+                    <!-- wartosci rgb koloru -->
                     <TextView
                         android:id="@+id/colorRgb"
                         android:layout_width="match_parent"
@@ -96,12 +108,14 @@
                         android:textSize="14sp"
                         tools:text="RGB(255, 0, 0)" />
 
+                    <!-- kontener na przyciski akcji -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:orientation="horizontal">
 
+                        <!-- przycisk zapisu koloru -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/saveColorButton"
                             style="?attr/materialButtonOutlinedStyle"
@@ -113,6 +127,7 @@
                             android:insetBottom="0dp"
                             android:text="@string/save_color" />
 
+                        <!-- przycisk kopiowania wszystkich danych -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/copyAllButton"
                             style="?attr/materialButtonOutlinedStyle"
@@ -130,6 +145,7 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- tekst instrukcji dla uzytkownika -->
             <TextView
                 android:id="@+id/instructionText"
                 android:layout_width="wrap_content"
@@ -145,6 +161,7 @@
 
     </ScrollView>
 
+    <!-- kontener na przyciski glowne -->
     <LinearLayout
         android:id="@+id/buttonsContainer"
         android:layout_width="0dp"
@@ -154,6 +171,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <!-- przycisk przechwycenia zdjecia z kamery -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCapturePhoto"
             style="@style/AppButton"
@@ -162,6 +180,7 @@
             android:text="Capture Photo"
             android:visibility="gone" />
 
+        <!-- przycisk wyboru obrazu z galerii -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/chooseImageButton"
             style="@style/AppButton"
@@ -169,6 +188,7 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:text="@string/choose_image" />
 
+        <!-- przycisk uruchomienia kamery -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/takePhotoButton"
             style="@style/AppButton"

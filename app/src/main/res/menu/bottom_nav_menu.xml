@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- menu dolnej nawigacji z 4 zakladkami -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- zakladka wyboru koloru z kamery -->
     <item
         android:id="@+id/nav_color_picker"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/nav_color_picker" />
+    <!-- zakladka zapisanych kolorow -->
     <item
         android:id="@+id/nav_saved_colors"
         android:icon="@android:drawable/btn_star_big_on"
         android:title="@string/nav_saved_colors" />
+    <!-- zakladka palet kolorow -->
     <item
         android:id="@+id/nav_palettes"
         android:icon="@android:drawable/ic_menu_view"
         android:title="@string/nav_palettes" />
+    <!-- zakladka kola kolorow -->
     <item
         android:id="@+id/nav_color_wheel"
         android:icon="@android:drawable/ic_menu_compass"
